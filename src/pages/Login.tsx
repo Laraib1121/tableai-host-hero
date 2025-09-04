@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { signIn } from 'aws-amplify/auth';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,10 +17,18 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    // TODO: Implement AWS Cognito authentication
     try {
-      // Placeholder for AWS Cognito login
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { nextStep } = await signIn({ username: email, password });
+      
+      if (nextStep.signInStep && nextStep.signInStep !== 'DONE') {
+        // Handle MFA or other additional steps in the future
+        toast({
+          title: "Additional Step Required",
+          description: "Please complete the additional authentication step.",
+          variant: "default",
+        });
+        return;
+      }
       
       toast({
         title: "Login Successful",
@@ -28,10 +37,17 @@ const Login = () => {
       
       // Redirect to dashboard
       window.location.href = '/dashboard';
-    } catch (error) {
+    } catch (error: any) {
+      const errorMessage = 
+        error?.name === 'UserNotConfirmedException' 
+          ? 'Please confirm your email first.'
+        : error?.name === 'NotAuthorizedException'
+          ? 'Incorrect email or password.'
+        : error?.message || 'Please check your credentials and try again.';
+      
       toast({
         title: "Login Failed",
-        description: "Please check your credentials and try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {

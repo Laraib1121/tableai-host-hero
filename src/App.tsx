@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import DashboardLayout from "./components/DashboardLayout";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Overview from "./pages/dashboard/Overview";
 import Inbox from "./pages/dashboard/Inbox";
 import Reservations from "./pages/dashboard/Reservations";
@@ -30,15 +31,15 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<DashboardLayout><Overview /></DashboardLayout>} />
-          <Route path="/dashboard/inbox" element={<DashboardLayout><Inbox /></DashboardLayout>} />
-          <Route path="/dashboard/reservations" element={<DashboardLayout><Reservations /></DashboardLayout>} />
-          <Route path="/dashboard/orders" element={<DashboardLayout><Orders /></DashboardLayout>} />
-          <Route path="/dashboard/analytics" element={<DashboardLayout><Analytics /></DashboardLayout>} />
-          <Route path="/dashboard/ai-settings" element={<DashboardLayout><AISettings /></DashboardLayout>} />
-          <Route path="/dashboard/integrations" element={<DashboardLayout><div className="p-8 text-center text-muted-foreground">Integrations page coming soon</div></DashboardLayout>} />
-          <Route path="/dashboard/team" element={<DashboardLayout><Team /></DashboardLayout>} />
-          <Route path="/dashboard/billing" element={<DashboardLayout><Billing /></DashboardLayout>} />
+          <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout><Overview /></DashboardLayout></ProtectedRoute>} />
+          <Route path="/dashboard/inbox" element={<ProtectedRoute><DashboardLayout><Inbox /></DashboardLayout></ProtectedRoute>} />
+          <Route path="/dashboard/reservations" element={<ProtectedRoute><DashboardLayout><Reservations /></DashboardLayout></ProtectedRoute>} />
+          <Route path="/dashboard/orders" element={<ProtectedRoute><DashboardLayout><Orders /></DashboardLayout></ProtectedRoute>} />
+          <Route path="/dashboard/analytics" element={<ProtectedRoute><DashboardLayout><Analytics /></DashboardLayout></ProtectedRoute>} />
+          <Route path="/dashboard/ai-settings" element={<ProtectedRoute><DashboardLayout><AISettings /></DashboardLayout></ProtectedRoute>} />
+          <Route path="/dashboard/integrations" element={<ProtectedRoute><DashboardLayout><div className="p-8 text-center text-muted-foreground">Integrations page coming soon</div></DashboardLayout></ProtectedRoute>} />
+          <Route path="/dashboard/team" element={<ProtectedRoute><DashboardLayout><Team /></DashboardLayout></ProtectedRoute>} />
+          <Route path="/dashboard/billing" element={<ProtectedRoute><DashboardLayout><Billing /></DashboardLayout></ProtectedRoute>} />
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/cookies" element={<CookiePolicy />} />
