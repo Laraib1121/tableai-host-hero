@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 import tableaiLogo from "@/assets/tableai-logo.png";
 
 const Login = () => {
@@ -250,12 +251,12 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="flex items-center justify-center space-x-3 mb-4">
+          <Link to="/" className="flex items-center justify-center space-x-3 mb-4 hover:opacity-80 transition-opacity">
             <img src={tableaiLogo} alt="TableAI" className="w-10 h-10" />
             <span className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent">
               TableAI
             </span>
-          </div>
+          </Link>
           <CardTitle>{getTitle()}</CardTitle>
           <CardDescription>
             {getDescription()}
