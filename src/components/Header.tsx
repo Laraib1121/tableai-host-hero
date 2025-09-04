@@ -27,12 +27,21 @@ const Header = () => {
           </a>
         </nav>
         
-        <Button 
-          variant="default" 
-          className="bg-gradient-hero hover:shadow-elegant transition-all duration-300 font-semibold"
-        >
-          Book Demo
-        </Button>
+        <div className="flex items-center space-x-3">
+          <Button 
+            variant="outline" 
+            className="text-foreground border-border hover:bg-accent"
+            onClick={() => window.location.href = '/login'}
+          >
+            Log In
+          </Button>
+          <Button 
+            variant="default" 
+            className="bg-gradient-hero hover:shadow-elegant transition-all duration-300 font-semibold"
+          >
+            Book Demo
+          </Button>
+        </div>
       </div>
     </header>
   );
