@@ -1,54 +1,55 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Calendar, CreditCard, Truck, Smartphone, Square, Clock, Leaf, Utensils } from "lucide-react";
 
 const integrations = [
   {
     name: "OpenTable",
     category: "Reservations",
     description: "Seamless reservation management",
-    logo: "🍽️"
+    logo: Calendar
   },
   {
     name: "Toast POS",
     category: "Point of Sale",
     description: "Complete order integration",
-    logo: "🔥"
+    logo: CreditCard
   },
   {
     name: "DoorDash",
     category: "Delivery",
     description: "Delivery order coordination",
-    logo: "🚚"
+    logo: Truck
   },
   {
     name: "Uber Eats",
     category: "Delivery",
     description: "Automated order management",
-    logo: "📱"
+    logo: Smartphone
   },
   {
     name: "Square",
     category: "Payments",
     description: "Secure payment processing",
-    logo: "💳"
+    logo: Square
   },
   {
     name: "Resy",
     category: "Reservations",
     description: "Premium reservation sync",
-    logo: "📅"
+    logo: Clock
   },
   {
     name: "Clover",
     category: "Point of Sale",
     description: "Menu and inventory sync",
-    logo: "☘️"
+    logo: Leaf
   },
   {
     name: "Grubhub",
     category: "Delivery",
     description: "Third-party delivery integration",
-    logo: "🥘"
+    logo: Utensils
   }
 ];
 
@@ -75,7 +76,9 @@ const Integrations = () => {
               className="hover:shadow-card transition-all duration-300 hover:-translate-y-1 border-border/50 bg-card/80 backdrop-blur-sm"
             >
               <CardHeader className="text-center pb-4">
-                <div className="text-4xl mb-3">{integration.logo}</div>
+                <div className="text-4xl mb-3">
+                  <integration.logo className="w-12 h-12 mx-auto text-primary" />
+                </div>
                 <CardTitle className="text-lg font-semibold">{integration.name}</CardTitle>
                 <Badge variant="secondary" className="w-fit mx-auto text-xs">
                   {integration.category}
