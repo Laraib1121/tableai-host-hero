@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +9,17 @@ const Hero = () => {
   const heroRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+  
+  const [currentWord, setCurrentWord] = useState(0);
+  const words = ["Restaurant", "Deli", "Cafe"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentWord((prev) => (prev + 1) % words.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const content = contentRef.current;
@@ -78,7 +89,10 @@ const Hero = () => {
           </Badge>
           
           <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
-            Transform Your Restaurant 
+            Transform Your{" "}
+            <span className="font-display font-bold transition-all duration-500 ease-in-out">
+              {words[currentWord]}
+            </span>
             <span className="block bg-gradient-hero bg-clip-text text-transparent">
               with TableAI
             </span>
