@@ -1,29 +1,21 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getCurrentUser, signOut } from "aws-amplify/auth";
+import { useAuth } from 'react-oidc-context';
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import tableaiLogo from "@/assets/tableai-logo.png";
 
 const Header = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const auth = useAuth();
   const { toast } = useToast();
-
-  useEffect(() => {
-    getCurrentUser()
-      .then(() => setIsAuthenticated(true))
-      .catch(() => setIsAuthenticated(false));
-  }, []);
 
   const handleLogout = async () => {
     try {
-      await signOut();
-      setIsAuthenticated(false);
+      // Prefer RP-initiated logout via Hosted UI
+      await auth.signoutRedirect();
       toast({
         title: "Logged Out",
         description: "You have been successfully logged out.",
       });
-      window.location.href = '/';
     } catch (error) {
       toast({
         title: "Logout Failed",
@@ -59,7 +51,7 @@ const Header = () => {
         </nav>
         
         <div className="flex items-center space-x-3">
-          {isAuthenticated ? (
+          {auth.isAuthenticated ? (
             <>
               <Button asChild variant="outline" className="text-foreground border-border hover:bg-accent">
                 <Link to="/dashboard">Dashboard</Link>

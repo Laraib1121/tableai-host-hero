@@ -1,4 +1,6 @@
 import { fetchAuthSession } from 'aws-amplify/auth';
+// Note: When using OIDC via react-oidc-context, prefer passing tokens
+// from components using `useAuth()` rather than relying on Amplify here.
 
 export async function apiFetch(input: RequestInfo | URL, init: RequestInit = {}): Promise<Response> {
   try {

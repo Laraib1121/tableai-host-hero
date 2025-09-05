@@ -1,21 +1,19 @@
-import { ReactNode, useEffect, useState } from 'react';
-import { getCurrentUser } from 'aws-amplify/auth';
+import { ReactNode, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
+import { useAuth } from 'react-oidc-context';
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const [status, setStatus] = useState<'loading' | 'authed' | 'guest'>('loading');
+  const auth = useAuth();
 
   useEffect(() => {
-    getCurrentUser()
-      .then(() => setStatus('authed'))
-      .catch(() => setStatus('guest'));
+    // no-op: auth state is tracked by react-oidc-context
   }, []);
 
-  if (status === 'loading') {
+  if (auth.isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -26,9 +24,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     );
   }
 
-  if (status === 'guest') {
-    return <Navigate to="/login" replace />;
-  }
+  if (!auth.isAuthenticated) return <Navigate to="/login" replace />;
 
   return <>{children}</>;
 };
