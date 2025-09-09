@@ -25,20 +25,29 @@ export const BrandProvider: React.FC<BrandProviderProps> = ({ children }) => {
     return 'restaurant';
   };
 
-  const [brand, setBrandState] = useState<Brand>(() => {
-    // Check localStorage first, then URL, then default to restaurant
+  // Safe initial state - avoid localStorage during initial render
+  const [brand, setBrandState] = useState<Brand>('restaurant');
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize brand from localStorage and URL after component mounts
+  useEffect(() => {
     const saved = localStorage.getItem('tableai-brand') as Brand;
     const fromPath = getBrandFromPath(location.pathname);
-    return saved || fromPath || 'restaurant';
-  });
+    const initialBrand = saved || fromPath || 'restaurant';
+    
+    setBrandState(initialBrand);
+    setIsInitialized(true);
+  }, [location.pathname]);
 
-  // Update brand when route changes
+  // Update brand when route changes (only after initialization)
   useEffect(() => {
+    if (!isInitialized) return;
+    
     const currentBrand = getBrandFromPath(location.pathname);
     if (currentBrand !== brand) {
       setBrandState(currentBrand);
     }
-  }, [location.pathname, brand]);
+  }, [location.pathname, brand, isInitialized]);
 
   // Update data-brand attribute on document body
   useEffect(() => {

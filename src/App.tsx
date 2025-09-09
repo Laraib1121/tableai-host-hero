@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import { BrandProvider } from "@/contexts/BrandContext";
+import { useEffect, useState } from 'react';
 import BrandedIndex from "./pages/BrandedIndex";
 import Login from "./pages/Login";
 import DashboardLayout from "./components/DashboardLayout";
@@ -25,8 +26,20 @@ import CookiePolicy from "./pages/CookiePolicy";
 const queryClient = new QueryClient();
 
 const RedirectToLastBrand = () => {
-  const lastBrand = localStorage.getItem('tableai-brand') || 'restaurant';
-  return <Navigate to={`/${lastBrand}`} replace />;
+  const [targetPath, setTargetPath] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Safely access localStorage after component mounts
+    const lastBrand = localStorage.getItem('tableai-brand') || 'restaurant';
+    setTargetPath(`/${lastBrand}`);
+  }, []);
+
+  // Show loading until we determine the redirect path
+  if (!targetPath) {
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+  }
+
+  return <Navigate to={targetPath} replace />;
 };
 
 const App = () => (
