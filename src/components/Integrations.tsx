@@ -1,59 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, CreditCard, Truck, Smartphone, Square, Clock, Leaf, Utensils } from "lucide-react";
+import { useBrand } from "@/contexts/BrandContext";
+import { getBrandConfig } from "@/config/brandConfig";
 
-const integrations = [
-  {
-    name: "OpenTable",
-    category: "Reservations",
-    description: "Seamless reservation management",
-    logo: Calendar
-  },
-  {
-    name: "Toast POS",
-    category: "Point of Sale",
-    description: "Complete order integration",
-    logo: CreditCard
-  },
-  {
-    name: "DoorDash",
-    category: "Delivery",
-    description: "Delivery order coordination",
-    logo: Truck
-  },
-  {
-    name: "Uber Eats",
-    category: "Delivery",
-    description: "Automated order management",
-    logo: Smartphone
-  },
-  {
-    name: "Square",
-    category: "Payments",
-    description: "Secure payment processing",
-    logo: Square
-  },
-  {
-    name: "Resy",
-    category: "Reservations",
-    description: "Premium reservation sync",
-    logo: Clock
-  },
-  {
-    name: "Clover",
-    category: "Point of Sale",
-    description: "Menu and inventory sync",
-    logo: Leaf
-  },
-  {
-    name: "Grubhub",
-    category: "Delivery",
-    description: "Third-party delivery integration",
-    logo: Utensils
-  }
-];
 
 const Integrations = () => {
+  const { brand } = useBrand();
+  const config = getBrandConfig(brand);
+  
   return (
     <section id="integrations" className="py-24 bg-gradient-subtle">
       <div className="max-w-7xl mx-auto px-6">
@@ -65,12 +19,12 @@ const Integrations = () => {
             </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            TableAI connects with all the restaurant tools you already use, creating a unified ecosystem for maximum efficiency.
+            {config.name} connects with all the {brand === 'medical' ? 'healthcare' : 'restaurant'} tools you already use, creating a unified ecosystem for maximum efficiency.
           </p>
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {integrations.map((integration, index) => (
+          {config.integrations.map((integration, index) => (
             <Card 
               key={index} 
               className="hover:shadow-card transition-all duration-300 hover:-translate-y-1 border-border/50 bg-card/80 backdrop-blur-sm"

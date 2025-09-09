@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useBrand } from "@/contexts/BrandContext";
+import { getBrandConfig } from "@/config/brandConfig";
 import heroImage from "@/assets/hero-image.jpg";
 import { Phone, MessageCircle, Calendar, CreditCard } from "lucide-react";
 
@@ -10,8 +12,11 @@ const Hero = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   
+  const { brand } = useBrand();
+  const config = getBrandConfig(brand);
+  
   const [currentWord, setCurrentWord] = useState(0);
-  const words = ["Restaurant", "Deli", "Cafe"];
+  const words = config.hero.rotatingWords;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -85,21 +90,21 @@ const Hero = () => {
         <div ref={contentRef} className="text-center lg:text-left space-y-8">
           <Badge className="inline-flex items-center space-x-2 bg-primary/10 text-primary border-primary/20 px-4 py-2">
             <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-            <span>AI-Powered Restaurant Front Desk</span>
+            <span>{config.hero.badge}</span>
           </Badge>
           
           <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
-            Transform Your{" "}
+            {config.hero.title}{" "}
             <span className="font-display font-bold transition-all duration-500 ease-in-out">
               {words[currentWord]}
             </span>
             <span className="block bg-gradient-hero bg-clip-text text-transparent">
-              with TableAI
+              {config.hero.titleHighlight}
             </span>
           </h1>
           
           <p className="text-xl text-muted-foreground max-w-2xl leading-relaxed">
-            Let AI handle calls, reservations, orders, and payments 24/7, so your staff can focus on creating amazing dining experiences.
+            {config.hero.description}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -107,14 +112,14 @@ const Hero = () => {
               size="lg" 
               className="bg-gradient-hero hover:shadow-glow transition-all duration-300 text-lg px-8 py-6 font-semibold"
             >
-              Book a Demo
+              {config.cta.primary}
             </Button>
             <Button 
               size="lg" 
               variant="outline" 
               className="border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 text-lg px-8 py-6"
             >
-              Watch Demo Video
+              {config.cta.secondary}
             </Button>
           </div>
           

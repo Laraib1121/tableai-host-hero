@@ -2,9 +2,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { SigninCallback, SignoutCallback } from 'react-oidc-context';
-import Index from "./pages/Index";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { HelmetProvider } from 'react-helmet-async';
+import { BrandProvider } from "@/contexts/BrandContext";
+import BrandedIndex from "./pages/BrandedIndex";
 import Login from "./pages/Login";
 import DashboardLayout from "./components/DashboardLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -23,17 +24,26 @@ import CookiePolicy from "./pages/CookiePolicy";
 
 const queryClient = new QueryClient();
 
+const RedirectToLastBrand = () => {
+  const lastBrand = localStorage.getItem('tableai-brand') || 'restaurant';
+  return <Navigate to={`/${lastBrand}`} replace />;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* OIDC callbacks */}
-          <Route path="/auth/callback" element={<SigninCallback />} />
-          <Route path="/auth/logout-callback" element={<SignoutCallback />} />
+    <HelmetProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <BrandProvider>
+            <Routes>
+              <Route path="/" element={<RedirectToLastBrand />} />
+              <Route path="/restaurant" element={<BrandedIndex />} />
+              <Route path="/medical" element={<BrandedIndex />} />
+              {/* OIDC callbacks */}
+              <Route path="/auth/callback" element={<div>Processing login...</div>} />
+              <Route path="/auth/logout-callback" element={<div>Logging out...</div>} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout><Overview /></DashboardLayout></ProtectedRoute>} />
           <Route path="/dashboard/inbox" element={<ProtectedRoute><DashboardLayout><Inbox /></DashboardLayout></ProtectedRoute>} />
@@ -47,11 +57,13 @@ const App = () => (
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/cookies" element={<CookiePolicy />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrandProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </HelmetProvider>
   </QueryClientProvider>
 );
 

@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
+import { useBrand } from "@/contexts/BrandContext";
+import { getBrandConfig } from "@/config/brandConfig";
 
 const benefits = [
   "Free 30-day trial",
@@ -10,6 +12,9 @@ const benefits = [
 ];
 
 const CTA = () => {
+  const { brand } = useBrand();
+  const config = getBrandConfig(brand);
+  
   return (
     <section className="py-24 bg-background">
       <div className="max-w-4xl mx-auto px-6">
@@ -17,10 +22,10 @@ const CTA = () => {
           <div className="absolute inset-0 bg-black/10"></div>
           <CardContent className="relative z-10 p-12 text-center text-white">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              Ready to Transform Your Restaurant?
+              Ready to Transform Your {brand === 'medical' ? 'Practice' : 'Restaurant'}?
             </h2>
             <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-              Join thousands of restaurants using TableAI to provide exceptional customer service while reducing costs and increasing efficiency.
+              Join thousands of {brand === 'medical' ? 'practices' : 'restaurants'} using {config.name} to provide exceptional customer service while reducing costs and increasing efficiency.
             </p>
             
             <div className="grid md:grid-cols-2 gap-4 mb-8 max-w-md mx-auto">
@@ -38,7 +43,7 @@ const CTA = () => {
                 variant="outline"
                 className="bg-white text-primary hover:bg-white/90 border-white font-semibold text-lg px-8 py-6"
               >
-                Book Your Demo
+                {config.cta.primary}
               </Button>
               <Button 
                 size="lg" 
