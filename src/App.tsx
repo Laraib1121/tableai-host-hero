@@ -30,13 +30,13 @@ const RedirectToLastBrand = () => {
 };
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <HelmetProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <BrandProvider>
+  <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <HelmetProvider>
+        <BrandProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
             <Routes>
               <Route path="/" element={<RedirectToLastBrand />} />
               <Route path="/restaurant" element={<BrandedIndex />} />
@@ -44,27 +44,27 @@ const App = () => (
               {/* OIDC callbacks */}
               <Route path="/auth/callback" element={<div>Processing login...</div>} />
               <Route path="/auth/logout-callback" element={<div>Logging out...</div>} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout><Overview /></DashboardLayout></ProtectedRoute>} />
-          <Route path="/dashboard/inbox" element={<ProtectedRoute><DashboardLayout><Inbox /></DashboardLayout></ProtectedRoute>} />
-          <Route path="/dashboard/reservations" element={<ProtectedRoute><DashboardLayout><Reservations /></DashboardLayout></ProtectedRoute>} />
-          <Route path="/dashboard/orders" element={<ProtectedRoute><DashboardLayout><Orders /></DashboardLayout></ProtectedRoute>} />
-          <Route path="/dashboard/analytics" element={<ProtectedRoute><DashboardLayout><Analytics /></DashboardLayout></ProtectedRoute>} />
-          <Route path="/dashboard/ai-settings" element={<ProtectedRoute><DashboardLayout><AISettings /></DashboardLayout></ProtectedRoute>} />
-          <Route path="/dashboard/integrations" element={<ProtectedRoute><DashboardLayout><div className="p-8 text-center text-muted-foreground">Integrations page coming soon</div></DashboardLayout></ProtectedRoute>} />
-          <Route path="/dashboard/team" element={<ProtectedRoute><DashboardLayout><Team /></DashboardLayout></ProtectedRoute>} />
-          <Route path="/dashboard/billing" element={<ProtectedRoute><DashboardLayout><Billing /></DashboardLayout></ProtectedRoute>} />
-          <Route path="/terms" element={<TermsOfService />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/cookies" element={<CookiePolicy />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout><Overview /></DashboardLayout></ProtectedRoute>} />
+              <Route path="/dashboard/inbox" element={<ProtectedRoute><DashboardLayout><Inbox /></DashboardLayout></ProtectedRoute>} />
+              <Route path="/dashboard/reservations" element={<ProtectedRoute><DashboardLayout><Reservations /></DashboardLayout></ProtectedRoute>} />
+              <Route path="/dashboard/orders" element={<ProtectedRoute><DashboardLayout><Orders /></DashboardLayout></ProtectedRoute>} />
+              <Route path="/dashboard/analytics" element={<ProtectedRoute><DashboardLayout><Analytics /></DashboardLayout></ProtectedRoute>} />
+              <Route path="/dashboard/ai-settings" element={<ProtectedRoute><DashboardLayout><AISettings /></DashboardLayout></ProtectedRoute>} />
+              <Route path="/dashboard/integrations" element={<ProtectedRoute><DashboardLayout><div className="p-8 text-center text-muted-foreground">Integrations page coming soon</div></DashboardLayout></ProtectedRoute>} />
+              <Route path="/dashboard/team" element={<ProtectedRoute><DashboardLayout><Team /></DashboardLayout></ProtectedRoute>} />
+              <Route path="/dashboard/billing" element={<ProtectedRoute><DashboardLayout><Billing /></DashboardLayout></ProtectedRoute>} />
+              <Route path="/terms" element={<TermsOfService />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/cookies" element={<CookiePolicy />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </BrandProvider>
-        </BrowserRouter>
-      </TooltipProvider>
-    </HelmetProvider>
-  </QueryClientProvider>
+          </TooltipProvider>
+        </BrandProvider>
+      </HelmetProvider>
+    </QueryClientProvider>
+  </BrowserRouter>
 );
 
 export default App;
